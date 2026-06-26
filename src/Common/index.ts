@@ -4,3 +4,7 @@ export { Button } from "./ui/Button.tsx";
 export { Input } from "./ui/Input";
 export { Divider } from "./ui/Divider";
 export { Footer } from "./ui/Footer.tsx";
+export { NotFoundPage } from "./ui/NotFoundPage.tsx";
+export { MovieCard } from "./ui/MovieCard";
+export { SectionErrorBoundary } from "./ui/ErrorBoundary";
+export { TrailerModal } from "./ui/TrailerModal";
