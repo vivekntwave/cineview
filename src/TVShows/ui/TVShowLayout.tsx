@@ -5,6 +5,8 @@ import { useTranslation } from "react-i18next";
 import { tmdbService } from "../../data/tmdbService";
 import { type TVShowDetail } from "../../core/tmdbSchemas";
 import { WatchlistToggle } from "../../Collection/ui/WatchlistToggle";
+import { AddToListPopover } from "../../Collection/ui/AddToListPopover";
+import { collectionStore } from "../../Collection/core/CollectionStore";
 import { preferencesStore } from "../../Preferences/core/PreferenceStore";
 
 export interface TVShowContextType {
@@ -71,6 +73,14 @@ export const TVShowLayout = observer(function TVShowLayout() {
 
   const isNestedSubPage = location.pathname.includes("/season/");
 
+  const activeSeasons = show.seasons.filter((s) => s.season_number > 0);
+  const showProgress = collectionStore.getShowProgress(
+    show.id,
+    activeSeasons.map((s) => ({ seasonNumber: s.season_number, episodeCount: s.episode_count })),
+  );
+  const showProgressPct =
+    showProgress.total > 0 ? Math.round((showProgress.watched / showProgress.total) * 100) : 0;
+
   return (
     <div className="min-h-screen bg-zinc-50 pb-20 text-zinc-900 dark:bg-black dark:text-white">
       <div className="relative h-[40vh] w-full bg-zinc-200 dark:bg-zinc-900">
@@ -104,7 +114,17 @@ export const TVShowLayout = observer(function TVShowLayout() {
                 </div>
               )}
             </div>
-            <WatchlistToggle media={show} className="mt-4" />
+            <WatchlistToggle
+              media={show}
+              className="mt-4"
+              extras={{ totalEpisodes: show.number_of_episodes }}
+            />
+            <AddToListPopover
+              media={show}
+              variant="button"
+              className="mt-2"
+              extras={{ totalEpisodes: show.number_of_episodes }}
+            />
           </div>
 
           <div className="flex-1 pt-2 text-center md:text-left">
@@ -123,6 +143,28 @@ export const TVShowLayout = observer(function TVShowLayout() {
                 })}
               </span>
             </div>
+
+            {showProgress.total > 0 && (
+              <div className="mt-4 max-w-md">
+                <div className="flex items-center justify-between text-[10px] font-semibold text-zinc-500 dark:text-zinc-400">
+                  <span>{t("tv:showProgress")}</span>
+                  <span>
+                    {t("tv:episodeProgress", {
+                      watched: showProgress.watched,
+                      total: showProgress.total,
+                    })}{" "}
+                    ({showProgressPct}%)
+                  </span>
+                </div>
+                <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+                  <div
+                    className="h-full rounded-full bg-violet-600 transition-all duration-300"
+                    style={{ width: `${showProgressPct}%` }}
+                  />
+                </div>
+              </div>
+            )}
+
             <p className="mt-4 max-w-4xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">{show.overview}</p>
           </div>
         </div>

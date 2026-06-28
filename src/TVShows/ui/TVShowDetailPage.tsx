@@ -1,8 +1,10 @@
 import { useOutletContext, Link } from "react-router";
+import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { type TVShowContextType } from "./TVShowLayout";
+import { collectionStore } from "../../Collection/core/CollectionStore";
 
-export function TVShowDetailPage() {
+export const TVShowDetailPage = observer(function TVShowDetailPage() {
   const { t } = useTranslation(["tv", "common"]);
   const { show } = useOutletContext<TVShowContextType>();
   const activeSeasons = show.seasons.filter((s) => s.season_number > 0);
@@ -18,6 +20,12 @@ export function TVShowDetailPage() {
           const seasonPoster = season.poster_path
             ? `https://image.tmdb.org/t/p/w342${season.poster_path}`
             : null;
+          const { watched, total } = collectionStore.getSeasonProgress(
+            show.id,
+            season.season_number,
+            season.episode_count,
+          );
+          const progressPct = total > 0 ? Math.round((watched / total) * 100) : 0;
 
           return (
             <Link
@@ -27,7 +35,11 @@ export function TVShowDetailPage() {
             >
               <div className="aspect-2/3 w-20 shrink-0 overflow-hidden rounded-lg bg-zinc-200 ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-white/5">
                 {seasonPoster ? (
-                  <img src={seasonPoster} alt={season.name} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+                  <img
+                    src={seasonPoster}
+                    alt={season.name}
+                    className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-[10px] text-zinc-500 dark:text-zinc-600">
                     {t("common:noImage")}
@@ -42,6 +54,21 @@ export function TVShowDetailPage() {
                 <p className="mt-1 text-xs font-medium text-zinc-500">
                   {t("tv:episodesPublished", { count: season.episode_count })}
                 </p>
+
+                {watched > 0 && (
+                  <div className="mt-2">
+                    <p className="text-[10px] font-semibold text-violet-600 dark:text-violet-400">
+                      {t("tv:episodeProgress", { watched, total })} ({progressPct}%)
+                    </p>
+                    <div className="mt-1 h-1.5 overflow-hidden rounded-full bg-zinc-200 dark:bg-zinc-800">
+                      <div
+                        className="h-full rounded-full bg-violet-600"
+                        style={{ width: `${progressPct}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <span className="mt-3 inline-flex items-center gap-1 text-[10px] font-semibold text-violet-600 transition-transform group-hover:translate-x-1 dark:text-violet-400">
                   {t("tv:viewEpisodes")} →
                 </span>
@@ -52,4 +79,4 @@ export function TVShowDetailPage() {
       </div>
     </div>
   );
-}
+});

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
-import { watchlistStore } from "../core/WatchlistStore";
-import { type WatchlistFilter, type WatchlistSort } from "../core/watchlistSchema";
+import { collectionStore } from "../core/CollectionStore";
+import { type WatchlistFilter, type WatchlistSort } from "../core/collectionSchema";
 import { WatchlistEntryCard } from "./WatchlistEntryCard";
 
 const FILTERS: WatchlistFilter[] = ["all", "want_to_watch", "watching", "completed"];
@@ -13,7 +13,7 @@ export const WatchlistPage = observer(function WatchlistPage() {
   const [filter, setFilter] = useState<WatchlistFilter>("all");
   const [sortBy, setSortBy] = useState<WatchlistSort>("dateAdded");
 
-  const entries = watchlistStore.getEntries(filter, sortBy);
+  const entries = collectionStore.getEntries(filter, sortBy);
 
   const filterLabel = (f: WatchlistFilter) => {
     const labels: Record<WatchlistFilter, string> = {
@@ -26,8 +26,8 @@ export const WatchlistPage = observer(function WatchlistPage() {
   };
 
   const filterCount = (f: WatchlistFilter) => {
-    if (f === "all") return watchlistStore.totalCount;
-    return watchlistStore.countByStatus(f);
+    if (f === "all") return collectionStore.totalCount;
+    return collectionStore.countByStatus(f);
   };
 
   const sortLabel = (s: WatchlistSort) => {
@@ -44,7 +44,7 @@ export const WatchlistPage = observer(function WatchlistPage() {
       <div className="mx-auto max-w-4xl">
         <h1 className="text-2xl font-bold">{t("watchlistTitle")}</h1>
 
-        {watchlistStore.totalCount === 0 ? (
+        {collectionStore.totalCount === 0 ? (
           <div className="mt-12 flex flex-col items-center justify-center rounded-xl border border-dashed border-zinc-300 bg-white px-6 py-16 text-center dark:border-zinc-700 dark:bg-zinc-950">
             <p className="text-4xl">🎬</p>
             <p className="mt-4 text-lg font-semibold text-zinc-700 dark:text-zinc-300">

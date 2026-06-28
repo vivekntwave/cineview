@@ -9,5 +9,12 @@
   "noEpisodes": "No episodes listed for this season.",
   "watched": "Watched",
   "airDate": "Air date: {{date}}",
-  "noEpisodeOverview": "No overview available for this episode."
+  "noEpisodeOverview": "No overview available for this episode.",
+  "showProgress": "Show Progress",
+  "seasonProgress": "Season Progress",
+  "episodeProgress": "{{watched}}/{{total}} episodes",
+  "episodesWatched_one": "{{count}} episode watched",
+  "episodesWatched_other": "{{count}} episodes watched",
+  "markAll": "Mark All Watched",
+  "unmarkAll": "Unmark All"
 }

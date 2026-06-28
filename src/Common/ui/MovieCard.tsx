@@ -3,6 +3,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { type MediaItem } from "../../core/tmdbSchemas";
 import { WatchlistToggle } from "../../Collection/ui/WatchlistToggle";
+import { AddToListPopover } from "../../Collection/ui/AddToListPopover";
 
 interface MovieCardProps {
   media: MediaItem;
@@ -48,6 +49,7 @@ export const MovieCard = observer(function MovieCard({ media }: MovieCardProps) 
         </div>
 
         <WatchlistToggle media={media} variant="icon" />
+        <AddToListPopover media={media} variant="icon" />
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col p-3">

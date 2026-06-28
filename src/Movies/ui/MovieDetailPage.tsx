@@ -6,6 +6,7 @@ import { tmdbService } from "../../data/tmdbService";
 import { type MovieDetail, type MediaItem, type CastMember } from "../../core/tmdbSchemas";
 import { MovieCard, TrailerModal } from "../../Common/index.ts";
 import { WatchlistToggle } from "../../Collection/ui/WatchlistToggle";
+import { AddToListPopover } from "../../Collection/ui/AddToListPopover";
 import { preferencesStore } from "../../Preferences/core/PreferenceStore";
 
 export const MovieDetailPage = observer(function MovieDetailPage() {
@@ -103,6 +104,7 @@ export const MovieDetailPage = observer(function MovieDetailPage() {
           </div>
 
           <WatchlistToggle media={movie} className="mt-4" />
+          <AddToListPopover media={movie} variant="button" className="mt-2" />
         </div>
 
         <div className="flex-1 pt-4 text-center md:text-left">
