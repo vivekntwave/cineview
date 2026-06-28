@@ -4,6 +4,7 @@ import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { tmdbService } from "../../data/tmdbService";
 import { type TVShowDetail } from "../../core/tmdbSchemas";
+import { WatchlistToggle } from "../../Collection/ui/WatchlistToggle";
 import { preferencesStore } from "../../Preferences/core/PreferenceStore";
 
 export interface TVShowContextType {
@@ -93,14 +94,17 @@ export const TVShowLayout = observer(function TVShowLayout() {
 
       <div className="relative z-10 mx-auto -mt-24 max-w-7xl px-6 lg:px-8">
         <div className="flex flex-col items-start gap-8 border-b border-zinc-200 pb-8 md:flex-row dark:border-zinc-900">
-          <div className="mx-auto aspect-2/3 w-40 shrink-0 overflow-hidden rounded-xl bg-zinc-200 shadow-2xl ring-1 ring-zinc-200 sm:w-50 md:mx-0 dark:bg-zinc-900 dark:ring-white/10">
-            {show.poster_path ? (
-              <img src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} alt={show.name} className="h-full w-full object-cover" />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-zinc-500 dark:text-zinc-700">
-                ✕ {t("common:noArtwork")}
-              </div>
-            )}
+          <div className="mx-auto w-40 shrink-0 sm:w-50 md:mx-0">
+            <div className="aspect-2/3 overflow-hidden rounded-xl bg-zinc-200 shadow-2xl ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-white/10">
+              {show.poster_path ? (
+                <img src={`https://image.tmdb.org/t/p/w500${show.poster_path}`} alt={show.name} className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-zinc-500 dark:text-zinc-700">
+                  ✕ {t("common:noArtwork")}
+                </div>
+              )}
+            </div>
+            <WatchlistToggle media={show} className="mt-4" />
           </div>
 
           <div className="flex-1 pt-2 text-center md:text-left">

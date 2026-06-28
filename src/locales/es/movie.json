@@ -2,6 +2,8 @@
   "notFoundTitle": "Película no encontrada",
   "notFoundBody": "No se pudo verificar el ID de la película.",
   "addToWatchlist": "Añadir a mi lista",
+  "removeFromWatchlist": "Quitar de mi lista",
+  "inWatchlist": "En mi lista",
   "overview": "Sinopsis",
   "noOverview": "No hay sinopsis disponible.",
   "openTrailer": "Ver tráiler",

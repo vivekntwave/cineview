@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from "react-router";
 import { useState, type SubmitEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { observer } from "mobx-react-lite";
+import { watchlistStore } from "../../Collection/core/WatchlistStore";
 
 export const Navbar = observer(function Navbar() {
   const { t } = useTranslation("common");
@@ -22,7 +23,14 @@ export const Navbar = observer(function Navbar() {
           </NavLink>
           <div className="flex items-center gap-4">
             <NavLink to="/" end className={navClass}>{t("nav.home")}</NavLink>
-            <NavLink to="/watchlist" className={navClass}>{t("nav.watchlist")}</NavLink>
+            <NavLink to="/watchlist" className={navClass}>
+              {t("nav.watchlist")}
+              {watchlistStore.totalCount > 0 && (
+                <span className="ml-1.5 inline-flex min-w-5 items-center justify-center rounded-full bg-violet-600 px-1.5 py-0.5 text-[10px] font-bold text-white">
+                  {watchlistStore.totalCount}
+                </span>
+              )}
+            </NavLink>
             <NavLink to="/collections" className={navClass}>{t("nav.collections")}</NavLink>
           </div>
         </div>

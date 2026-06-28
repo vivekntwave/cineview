@@ -2,6 +2,8 @@
   "notFoundTitle": "Movie Not Found",
   "notFoundBody": "The movie ID could not be verified.",
   "addToWatchlist": "Add to Watchlist",
+  "removeFromWatchlist": "Remove from Watchlist",
+  "inWatchlist": "In Watchlist",
   "overview": "Overview",
   "noOverview": "No overview available for this title.",
   "openTrailer": "Open Trailer",

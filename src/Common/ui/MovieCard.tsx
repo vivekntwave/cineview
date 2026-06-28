@@ -1,12 +1,14 @@
 import { Link } from "react-router";
+import { observer } from "mobx-react-lite";
 import { useTranslation } from "react-i18next";
 import { type MediaItem } from "../../core/tmdbSchemas";
+import { WatchlistToggle } from "../../Collection/ui/WatchlistToggle";
 
 interface MovieCardProps {
   media: MediaItem;
 }
 
-export function MovieCard({ media }: MovieCardProps) {
+export const MovieCard = observer(function MovieCard({ media }: MovieCardProps) {
   const { t } = useTranslation("common");
 
   const calculatedTitle = media.title || media.name || t("untitled");
@@ -44,6 +46,8 @@ export function MovieCard({ media }: MovieCardProps) {
         <div className="absolute top-2 left-2 flex items-center gap-1 rounded border border-white/5 bg-black/80 px-1.5 py-0.5 text-[11px] font-bold text-amber-400 backdrop-blur-md">
           ★ {media.vote_average !== undefined && media.vote_average > 0 ? media.vote_average.toFixed(1) : t("notRated")}
         </div>
+
+        <WatchlistToggle media={media} variant="icon" />
       </div>
 
       <div className="flex min-w-0 flex-1 flex-col p-3">
@@ -54,4 +58,4 @@ export function MovieCard({ media }: MovieCardProps) {
       </div>
     </Link>
   );
-}
+});

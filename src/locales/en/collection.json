@@ -4,5 +4,22 @@
   "collectionDetailTitle": "Collection Detail",
   "collectionDetailBody": "Collection details will appear here.",
   "watchlistTitle": "Watchlist",
-  "watchlistBody": "Your saved titles will appear here."
+  "watchlistBody": "Your saved titles will appear here.",
+  "emptyWatchlistTitle": "Your watchlist is empty",
+  "emptyWatchlistBody": "Browse movies and TV shows, then tap the + button to save titles here.",
+  "emptyFilter": "No titles match this filter.",
+  "filterAll": "All",
+  "filterWantToWatch": "Want to Watch",
+  "filterWatching": "Watching",
+  "filterCompleted": "Completed",
+  "sortLabel": "Sort by",
+  "sortDateAdded": "Date Added",
+  "sortRating": "Rating",
+  "sortTitle": "Title",
+  "statusLabel": "Status",
+  "statusWantToWatch": "Want to Watch",
+  "statusWatching": "Watching",
+  "statusCompleted": "Completed",
+  "notePlaceholder": "Add a note (optional, max 300 characters)",
+  "remove": "Remove"
 }

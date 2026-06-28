@@ -4,5 +4,22 @@
   "collectionDetailTitle": "Detalle de colección",
   "collectionDetailBody": "Los detalles aparecerán aquí.",
   "watchlistTitle": "Mi lista",
-  "watchlistBody": "Tus títulos guardados aparecerán aquí."
+  "watchlistBody": "Tus títulos guardados aparecerán aquí.",
+  "emptyWatchlistTitle": "Tu lista está vacía",
+  "emptyWatchlistBody": "Explora películas y series, luego pulsa + para guardar títulos aquí.",
+  "emptyFilter": "No hay títulos con este filtro.",
+  "filterAll": "Todos",
+  "filterWantToWatch": "Por ver",
+  "filterWatching": "Viendo",
+  "filterCompleted": "Completados",
+  "sortLabel": "Ordenar por",
+  "sortDateAdded": "Fecha añadida",
+  "sortRating": "Valoración",
+  "sortTitle": "Título",
+  "statusLabel": "Estado",
+  "statusWantToWatch": "Por ver",
+  "statusWatching": "Viendo",
+  "statusCompleted": "Completado",
+  "notePlaceholder": "Añade una nota (opcional, máx. 300 caracteres)",
+  "remove": "Eliminar"
 }

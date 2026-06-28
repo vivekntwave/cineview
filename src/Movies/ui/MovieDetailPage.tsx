@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { tmdbService } from "../../data/tmdbService";
 import { type MovieDetail, type MediaItem, type CastMember } from "../../core/tmdbSchemas";
 import { MovieCard, TrailerModal } from "../../Common/index.ts";
+import { WatchlistToggle } from "../../Collection/ui/WatchlistToggle";
 import { preferencesStore } from "../../Preferences/core/PreferenceStore";
 
 export const MovieDetailPage = observer(function MovieDetailPage() {
@@ -101,13 +102,7 @@ export const MovieDetailPage = observer(function MovieDetailPage() {
             )}
           </div>
 
-          <button
-            type="button"
-            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-white py-2.5 text-xs font-semibold tracking-wide text-zinc-700 transition-colors hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
-            onClick={() => console.log("Watchlist action")}
-          >
-            ➕ {t("movie:addToWatchlist")}
-          </button>
+          <WatchlistToggle media={movie} className="mt-4" />
         </div>
 
         <div className="flex-1 pt-4 text-center md:text-left">
