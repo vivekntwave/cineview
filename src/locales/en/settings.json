@@ -1,0 +1,15 @@
+{
+  "title": "Settings",
+  "subtitle": "Manage language, region, and appearance.",
+  "language": "Language",
+  "languageHelp": "Updates all UI text and TMDB content language.",
+  "region": "Region",
+  "regionHelp": "Affects release dates and regional availability from TMDB.",
+  "theme": "Theme",
+  "themeHelp": "Switch between light and dark mode.",
+  "light": "Light",
+  "dark": "Dark",
+  "logout": "Log out",
+  "logoutHelp": "End your session and return to the login page.",
+  "saved": "Preferences saved automatically."
+}

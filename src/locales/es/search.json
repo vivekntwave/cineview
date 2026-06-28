@@ -1,0 +1,12 @@
+{
+  "title": "Descubrir contenido",
+  "placeholder": "Buscar películas, series, directores o actores…",
+  "recent": "Búsquedas recientes",
+  "clearHistory": "Borrar historial",
+  "noResultsTitle": "Sin resultados",
+  "noResultsBody": "Revisa la ortografía o prueba otro título.",
+  "movies": "Películas",
+  "tvShows": "Series y cadenas",
+  "castCrew": "Reparto y equipo",
+  "profile": "Perfil"
+}

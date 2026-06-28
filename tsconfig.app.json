@@ -24,7 +24,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "erasableSyntaxOnly": true
+    "erasableSyntaxOnly": true,
+    "resolveJsonModule": true
   },
   "include": [
     "src"

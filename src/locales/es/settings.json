@@ -1,0 +1,15 @@
+{
+  "title": "Ajustes",
+  "subtitle": "Administra idioma, región y apariencia.",
+  "language": "Idioma",
+  "languageHelp": "Actualiza la interfaz y el idioma de TMDB.",
+  "region": "Región",
+  "regionHelp": "Afecta fechas de estreno y disponibilidad regional.",
+  "theme": "Tema",
+  "themeHelp": "Cambia entre modo claro y oscuro.",
+  "light": "Claro",
+  "dark": "Oscuro",
+  "logout": "Cerrar sesión",
+  "logoutHelp": "Termina tu sesión y vuelve al inicio de sesión.",
+  "saved": "Las preferencias se guardan automáticamente."
+}

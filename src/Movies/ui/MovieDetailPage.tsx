@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router";
+import { observer } from "mobx-react-lite";
+import { useTranslation } from "react-i18next";
 import { tmdbService } from "../../data/tmdbService";
 import { type MovieDetail, type MediaItem, type CastMember } from "../../core/tmdbSchemas";
 import { MovieCard, TrailerModal } from "../../Common/index.ts";
+import { preferencesStore } from "../../Preferences/core/PreferenceStore";
 
-export function MovieDetailPage() {
+export const MovieDetailPage = observer(function MovieDetailPage() {
+  const { t } = useTranslation(["movie", "common"]);
+  const { language, region } = preferencesStore;
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
 
   const [movie, setMovie] = useState<MovieDetail | null>(null);
   const [cast, setCast] = useState<CastMember[]>([]);
   const [recommendations, setRecommendations] = useState<MediaItem[]>([]);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error404, setError404] = useState(false);
@@ -26,29 +30,29 @@ export function MovieDetailPage() {
         const [detailsData, creditsData, recsData] = await Promise.all([
           tmdbService.getMovieDetails(id),
           tmdbService.getMovieCredits(id),
-          tmdbService.getMovieRecommendations(id)
+          tmdbService.getMovieRecommendations(id),
         ]);
 
         setMovie(detailsData);
-        setCast(creditsData.cast.slice(0, 12)); // Target the primary billing slots
+        setCast(creditsData.cast.slice(0, 12));
         setRecommendations(recsData.results.slice(0, 8));
       } catch (err) {
         const errorInstance = err instanceof Error ? err : new Error(String(err));
-        if (errorInstance?.message === "ENTITY_NOT_FOUND") {
+        if (errorInstance.message === "ENTITY_NOT_FOUND") {
           setError404(true);
         } else {
-          console.error("Error tracking movie context profiles:", errorInstance);
+          console.error("Error loading movie:", errorInstance);
         }
       } finally {
         setLoading(false);
       }
     }
-    loadMovieContext();
-  }, [id]);
+    void loadMovieContext();
+  }, [id, language, region]);
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-black text-violet-500">
+      <div className="flex min-h-screen items-center justify-center bg-zinc-50 text-violet-600 dark:bg-black dark:text-violet-500">
         <div className="h-8 w-8 animate-spin rounded-full border-4 border-current border-t-transparent" />
       </div>
     );
@@ -56,16 +60,16 @@ export function MovieDetailPage() {
 
   if (error404 || !movie) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-black px-6 text-center text-white">
-        <h1 className="text-6xl font-black text-zinc-800">404</h1>
-        <p className="mt-2 text-lg font-bold text-zinc-200">Movie Profile Not Found</p>
-        <p className="mt-1 text-sm text-zinc-500 max-w-sm">The item index resource code parameters specified could not be verified.</p>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-zinc-50 px-6 text-center text-zinc-900 dark:bg-black dark:text-white">
+        <h1 className="text-6xl font-black text-zinc-300 dark:text-zinc-800">404</h1>
+        <p className="mt-2 text-lg font-bold text-zinc-700 dark:text-zinc-200">{t("movie:notFoundTitle")}</p>
+        <p className="mt-1 max-w-sm text-sm text-zinc-500">{t("movie:notFoundBody")}</p>
         <button
           type="button"
           onClick={() => navigate("/")}
-          className="mt-6 rounded-lg bg-zinc-900 border border-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-300 hover:text-white transition-colors"
+          className="mt-6 rounded-lg border border-zinc-300 bg-white px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300 dark:hover:text-white"
         >
-          Return Home
+          {t("common:returnHome")}
         </button>
       </div>
     );
@@ -75,72 +79,72 @@ export function MovieDetailPage() {
   const trailerKey = trailer?.key || movie.videos?.results[0]?.key || null;
 
   return (
-    <div className="min-h-screen bg-black text-white pb-20">
-      <div className="relative w-full h-[45vh] md:h-[55vh] bg-zinc-900">
+    <div className="min-h-screen bg-zinc-50 pb-20 text-zinc-900 dark:bg-black dark:text-white">
+      <div className="relative h-[45vh] w-full bg-zinc-200 md:h-[55vh] dark:bg-zinc-900">
         <img
           src={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
           alt=""
-          className="w-full h-full object-cover opacity-20"
+          className="h-full w-full object-cover opacity-20"
         />
         <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 -mt-32 md:-mt-48 relative z-10 flex flex-col md:flex-row gap-8">
-
-        <div className="w-55 sm:w-70 shrink-0 mx-auto md:mx-0">
-          <div className="aspect-2/3 w-full bg-zinc-900 rounded-xl overflow-hidden shadow-2xl ring-1 ring-white/10">
+      <div className="relative z-10 mx-auto -mt-32 flex max-w-7xl flex-col gap-8 px-6 md:-mt-48 md:flex-row lg:px-8">
+        <div className="mx-auto w-55 shrink-0 sm:w-70 md:mx-0">
+          <div className="aspect-2/3 w-full overflow-hidden rounded-xl bg-zinc-200 shadow-2xl ring-1 ring-zinc-200 dark:bg-zinc-900 dark:ring-white/10">
             {movie.poster_path ? (
-              <img
-                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                alt={movie.title}
-                className="w-full h-full object-cover"
-              />
+              <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className="h-full w-full object-cover" />
             ) : (
-              <div className="h-full w-full flex items-center justify-center text-zinc-700">✕ No Poster</div>
+              <div className="flex h-full w-full items-center justify-center text-zinc-500 dark:text-zinc-700">
+                ✕ {t("common:noPoster")}
+              </div>
             )}
           </div>
 
           <button
             type="button"
-            className="w-full mt-4 flex items-center justify-center gap-2 rounded-lg bg-zinc-900/80 hover:bg-zinc-800 border border-zinc-800 py-2.5 text-xs font-semibold text-zinc-300 hover:text-white transition-colors tracking-wide"
-            onClick={() => console.log("Watchlist placeholder placeholder action")}
+            className="mt-4 flex w-full items-center justify-center gap-2 rounded-lg border border-zinc-300 bg-white py-2.5 text-xs font-semibold tracking-wide text-zinc-700 transition-colors hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-900/80 dark:text-zinc-300 dark:hover:bg-zinc-800 dark:hover:text-white"
+            onClick={() => console.log("Watchlist action")}
           >
-            ➕ Add to Watchlist
+            ➕ {t("movie:addToWatchlist")}
           </button>
         </div>
 
-        <div className="flex-1 text-center md:text-left pt-4">
-          <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-            {movie.title}
-          </h1>
+        <div className="flex-1 pt-4 text-center md:text-left">
+          <h1 className="text-3xl font-black tracking-tight sm:text-5xl">{movie.title}</h1>
 
           {movie.tagline && (
-            <p className="mt-2 text-sm sm:text-base italic text-zinc-400 font-medium">
-              "{movie.tagline}"
+            <p className="mt-2 text-sm font-medium italic text-zinc-500 sm:text-base dark:text-zinc-400">
+              &ldquo;{movie.tagline}&rdquo;
             </p>
           )}
 
-          <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 mt-4 text-xs font-semibold text-zinc-400">
-            <span className="text-amber-400 flex items-center gap-1 font-bold">
-              ★ {movie.vote_average?.toFixed(1) ?? "NR"}            </span>
+          <div className="mt-4 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-semibold text-zinc-500 dark:text-zinc-400 md:justify-start">
+            <span className="flex items-center gap-1 font-bold text-amber-500 dark:text-amber-400">
+              ★ {movie.vote_average?.toFixed(1) ?? t("common:notRated")}
+            </span>
             <span>•</span>
             <span>{movie.release_date?.split("-")[0]}</span>
             <span>•</span>
-            <span>{movie.runtime ? `${movie.runtime} mins` : "N/A"}</span>
+            <span>
+              {movie.runtime
+                ? t("movie:runtimeMins", { count: movie.runtime })
+                : t("common:notAvailable")}
+            </span>
           </div>
 
-          <div className="flex flex-wrap justify-center md:justify-start gap-1.5 mt-4">
+          <div className="mt-4 flex flex-wrap justify-center gap-1.5 md:justify-start">
             {movie.genres.map((g) => (
-              <span key={g.id} className="rounded-md bg-zinc-900 border border-zinc-800/80 px-2.5 py-1 text-[11px] font-bold text-zinc-300">
+              <span key={g.id} className="rounded-md border border-zinc-300 bg-zinc-100 px-2.5 py-1 text-[11px] font-bold text-zinc-700 dark:border-zinc-800/80 dark:bg-zinc-900 dark:text-zinc-300">
                 {g.name}
               </span>
             ))}
           </div>
 
-          <div className="mt-6 border-t border-zinc-900 pt-6">
-            <h2 className="text-base font-bold text-zinc-200 tracking-wide uppercase">Overview</h2>
-            <p className="mt-2 text-sm leading-relaxed text-zinc-400 max-w-4xl">
-              {movie.overview || "No review summary details have been cataloged for this entry item."}
+          <div className="mt-6 border-t border-zinc-200 pt-6 dark:border-zinc-900">
+            <h2 className="text-base font-bold tracking-wide text-zinc-800 uppercase dark:text-zinc-200">{t("movie:overview")}</h2>
+            <p className="mt-2 max-w-4xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              {movie.overview || t("movie:noOverview")}
             </p>
           </div>
 
@@ -149,9 +153,9 @@ export function MovieDetailPage() {
               <button
                 type="button"
                 onClick={() => setIsModalOpen(true)}
-                className="rounded-lg bg-violet-600 hover:bg-violet-500 px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-white shadow-lg shadow-violet-600/10 active:scale-95 duration-100"
+                className="rounded-lg bg-violet-600 px-5 py-2.5 text-xs font-bold tracking-wider text-white uppercase shadow-lg shadow-violet-600/10 duration-100 hover:bg-violet-500 active:scale-95"
               >
-                🎬 Open Production Trailer
+                🎬 {t("movie:openTrailer")}
               </button>
             </div>
           )}
@@ -159,24 +163,20 @@ export function MovieDetailPage() {
       </div>
 
       {cast.length > 0 && (
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-16">
-          <h2 className="text-lg font-bold text-zinc-200 tracking-wide mb-6">Principal Cast</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-zinc-900 scrollbar-track-transparent">
+        <div className="mx-auto mt-16 max-w-7xl px-6 lg:px-8">
+          <h2 className="mb-6 text-lg font-bold tracking-wide text-zinc-800 dark:text-zinc-200">{t("movie:principalCast")}</h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent dark:scrollbar-thumb-zinc-900">
             {cast.map((actor) => (
-              <div key={actor.id} className="w-27.5 sm:w-33.75 shrink-0 flex flex-col items-center text-center bg-zinc-950/40 border border-zinc-900/60 rounded-xl p-2 shadow-sm">
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full overflow-hidden bg-zinc-900 ring-1 ring-white/5 mb-3">
+              <div key={actor.id} className="flex w-27.5 shrink-0 flex-col items-center rounded-xl border border-zinc-200 bg-white/80 p-2 text-center shadow-sm sm:w-33.75 dark:border-zinc-900/60 dark:bg-zinc-950/40">
+                <div className="mb-3 h-16 w-16 overflow-hidden rounded-full bg-zinc-200 ring-1 ring-zinc-200 sm:h-20 sm:w-20 dark:bg-zinc-900 dark:ring-white/5">
                   {actor.profile_path ? (
-                    <img
-                      src={`https://image.tmdb.org/t/p/w185${actor.profile_path}`}
-                      alt={actor.name}
-                      className="w-full h-full object-cover"
-                    />
+                    <img src={`https://image.tmdb.org/t/p/w185${actor.profile_path}`} alt={actor.name} className="h-full w-full object-cover" />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-zinc-700 text-lg">👤</div>
+                    <div className="flex h-full w-full items-center justify-center text-lg text-zinc-400 dark:text-zinc-700">👤</div>
                   )}
                 </div>
-                <p className="text-xs font-bold text-zinc-200 line-clamp-1">{actor.name}</p>
-                <p className="text-[10px] font-medium text-zinc-500 line-clamp-1 mt-0.5">{actor.character}</p>
+                <p className="line-clamp-1 text-xs font-bold text-zinc-800 dark:text-zinc-200">{actor.name}</p>
+                <p className="mt-0.5 line-clamp-1 text-[10px] font-medium text-zinc-500">{actor.character}</p>
               </div>
             ))}
           </div>
@@ -184,9 +184,9 @@ export function MovieDetailPage() {
       )}
 
       {recommendations.length > 0 && (
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 mt-16">
-          <h2 className="text-lg font-bold text-zinc-200 tracking-wide mb-6">Recommended Media Rows</h2>
-          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-zinc-900 scrollbar-track-transparent">
+        <div className="mx-auto mt-16 max-w-7xl px-6 lg:px-8">
+          <h2 className="mb-6 text-lg font-bold tracking-wide text-zinc-800 dark:text-zinc-200">{t("movie:recommended")}</h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-thin scrollbar-thumb-zinc-300 scrollbar-track-transparent dark:scrollbar-thumb-zinc-900">
             {recommendations.map((rec) => (
               <MovieCard key={rec.id} media={rec} />
             ))}
@@ -194,11 +194,7 @@ export function MovieDetailPage() {
         </div>
       )}
 
-      <TrailerModal
-        videoKey={trailerKey}
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      <TrailerModal videoKey={trailerKey} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
-}
+});

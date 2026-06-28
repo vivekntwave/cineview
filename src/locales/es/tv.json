@@ -1,0 +1,13 @@
+{
+  "notFoundTitle": "Serie no encontrada",
+  "backToSeasons": "Volver a temporadas",
+  "browseSeasons": "Temporadas disponibles",
+  "episodesPublished_one": "{{count}} episodio publicado",
+  "episodesPublished_other": "{{count}} episodios publicados",
+  "viewEpisodes": "Ver episodios",
+  "seasonsAndEpisodes": "{{seasons}} temporadas ({{episodes}} episodios)",
+  "noEpisodes": "No hay episodios listados para esta temporada.",
+  "watched": "Visto",
+  "airDate": "Fecha de emisión: {{date}}",
+  "noEpisodeOverview": "No hay sinopsis para este episodio."
+}

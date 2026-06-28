@@ -1,0 +1,12 @@
+{
+  "notFoundTitle": "Movie Not Found",
+  "notFoundBody": "The movie ID could not be verified.",
+  "addToWatchlist": "Add to Watchlist",
+  "overview": "Overview",
+  "noOverview": "No overview available for this title.",
+  "openTrailer": "Open Trailer",
+  "principalCast": "Principal Cast",
+  "recommended": "Recommended",
+  "runtimeMins_one": "{{count}} min",
+  "runtimeMins_other": "{{count}} mins"
+}

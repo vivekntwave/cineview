@@ -1,0 +1,13 @@
+{
+  "notFoundTitle": "TV Show Not Found",
+  "backToSeasons": "Back to All Seasons",
+  "browseSeasons": "Browse Available Seasons",
+  "episodesPublished_one": "{{count}} episode published",
+  "episodesPublished_other": "{{count}} episodes published",
+  "viewEpisodes": "View Episodes",
+  "seasonsAndEpisodes": "{{seasons}} Seasons ({{episodes}} Episodes)",
+  "noEpisodes": "No episodes listed for this season.",
+  "watched": "Watched",
+  "airDate": "Air date: {{date}}",
+  "noEpisodeOverview": "No overview available for this episode."
+}

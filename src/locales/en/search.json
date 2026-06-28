@@ -1,0 +1,12 @@
+{
+  "title": "Discover Content",
+  "placeholder": "Search for movies, TV shows, directors or actors…",
+  "recent": "Recent Searches",
+  "clearHistory": "Clear history",
+  "noResultsTitle": "No results found",
+  "noResultsBody": "Check your spelling or try a different title.",
+  "movies": "Movies",
+  "tvShows": "TV Shows & Networks",
+  "castCrew": "Cast & Crew",
+  "profile": "Profile"
+}

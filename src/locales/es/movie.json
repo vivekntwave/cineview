@@ -1,0 +1,12 @@
+{
+  "notFoundTitle": "Película no encontrada",
+  "notFoundBody": "No se pudo verificar el ID de la película.",
+  "addToWatchlist": "Añadir a mi lista",
+  "overview": "Sinopsis",
+  "noOverview": "No hay sinopsis disponible.",
+  "openTrailer": "Ver tráiler",
+  "principalCast": "Reparto principal",
+  "recommended": "Recomendaciones",
+  "runtimeMins_one": "{{count}} min",
+  "runtimeMins_other": "{{count}} min"
+}
